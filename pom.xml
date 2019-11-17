@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.github.spt-oss</groupId>
+		<artifactId>maven-parent</artifactId>
+		<version>8.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>bali-parent</artifactId>
+	<version>2.0.7.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Bali</name>
+	<description>Custom libraries for Java development</description>
+	<url>https://github.com/spt-oss/bali</url>
+	<inceptionYear>2018</inceptionYear>
+
+	<scm>
+		<url>https://github.com/spt-oss/bali/tree/master</url>
+		<connection>scm:git:git@github.com:spt-oss/bali.git</connection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<properties>
+		<bali.version>2.0.7.0-SNAPSHOT</bali.version>
+		<jsoup.version>1.12.1</jsoup.version>
+		<spring-boot.version>2.0.7.RELEASE</spring-boot.version>
+		<spring-boot-plus.version>2.0.7.1-SNAPSHOT</spring-boot-plus.version>
+		<spt-oss-checkstyle.version>8.26.0-SNAPSHOT</spt-oss-checkstyle.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.github.spt-oss</groupId>
+				<artifactId>spring-boot-parent</artifactId>
+				<version>${spring-boot-plus.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+		<repository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>${start-class}</mainClass>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring-boot.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<mainClass>${start-class}</mainClass>
+						<executable>true</executable>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<configLocation>com/github/spt-oss/checkstyle/checks.xml</configLocation>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.github.spt-oss</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${spt-oss-checkstyle.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>gpg</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
